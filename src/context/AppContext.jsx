@@ -68,6 +68,18 @@ export const AppProvider = ({ children }) => {
     await addDoc(collection(db, 'deliveries'), { ...newDelivery, id: newId, status: "pendente" });
   };
 
+  const addMotoboy = async (name) => {
+    const newId = motoboys.length > 0 ? Math.max(...motoboys.map(m => m.id)) + 1 : 1;
+    await addDoc(collection(db, 'motoboys'), {
+      id: newId,
+      name,
+      status: "disponível",
+      currentDeliveryId: null,
+      lat: -22.2139,
+      lng: -49.9458
+    });
+  };
+
   const updateMotoboyLocation = async (motoboyId, lat, lng) => {
     const mRef = getMotoboyRef(motoboyId);
     if (mRef) await updateDoc(mRef, { lat, lng });
@@ -97,7 +109,7 @@ export const AppProvider = ({ children }) => {
   }, [loading, motoboys.length, deliveries.length]);
 
   return (
-    <AppContext.Provider value={{ deliveries, motoboys, startDelivery, completeDelivery, assignMotoboy, addDelivery, updateMotoboyLocation, LOGGED_USER_ID }}>
+    <AppContext.Provider value={{ deliveries, motoboys, startDelivery, completeDelivery, assignMotoboy, addDelivery, addMotoboy, updateMotoboyLocation, LOGGED_USER_ID }}>
       {children}
     </AppContext.Provider>
   );

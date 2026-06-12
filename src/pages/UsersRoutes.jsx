@@ -1,15 +1,21 @@
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Link } from 'react-router-dom';
-import { User, MapPin, Navigation, Plus } from 'lucide-react';
+import { User, MapPin, Navigation, Plus, UserPlus } from 'lucide-react';
 
 const UsersRoutes = () => {
   const { motoboys, deliveries } = useContext(AppContext);
 
   return (
     <div>
-      <h2>Usuários e Rotas</h2>
-      <p style={{ marginBottom: '20px' }}>Rotas atribuídas para cada entregador.</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h2 style={{ margin: 0 }}>Rotas por Entregador</h2>
+        <Link to="/adicionar-usuario">
+          <button className="btn btn-success" style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}>
+            <UserPlus size={16} /> Novo Entregador
+          </button>
+        </Link>
+      </div>
       
       {motoboys.map(motoboy => {
         const userDeliveries = deliveries.filter(d => d.motoboyId === motoboy.id && d.status !== 'concluida');
